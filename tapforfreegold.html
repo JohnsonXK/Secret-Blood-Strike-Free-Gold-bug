@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Page title</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a href="ntes://game.mobile/g83naxx1ena.?wtf=eyJtb2RlIjogIlVzZUFjdGl2aXR5SW52aXRlQ29kZSIsICJjb2RlIjogIkFaem5NRnZRRWhFQWNEcnQifQ2equalequal2Google">
+        <div class="a">
+            <div class="b"></div>
+            <h1>   Claim Now</h1>
+        </div>
+    </a>
+    
+    <canvas id="particles"></canvas>
+
+<script>
+  const canvas = document.getElementById("particles");
+  const ctx = canvas.getContext("2d");
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener("resize", resizeCanvas);
+  resizeCanvas();
+
+  const NUM_PARTICLES = 20;
+  const particles = [];
+
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * canvas.width;
+      this.y = canvas.height + Math.random() * canvas.height;
+      this.radius = 5 + Math.random() * 10;
+      this.speed = 1 + Math.random() * 2;
+      this.alpha = 0.7 + Math.random() * 0.3;
+    }
+    update() {
+      this.y -= this.speed;
+      if (this.y < -this.radius) {
+        this.reset();
+        this.y = canvas.height + this.radius;
+      }
+    }
+    draw() {
+      const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.radius * 2);
+      gradient.addColorStop(0, `rgba(255,0,0,${this.alpha})`);
+      gradient.addColorStop(1, `rgba(255,0,0,0)`);
+      ctx.fillStyle = gradient;
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius * 2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  for (let i = 0; i < NUM_PARTICLES; i++) {
+    particles.push(new Particle());
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animate);
+  }
+  animate();
+</script>
+</body>
+</html>
